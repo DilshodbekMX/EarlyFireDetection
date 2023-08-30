@@ -1,0 +1,210 @@
+<!-- SELECT2 EXAMPLE -->
+{% extends 'director/base.html' %}
+{% load static %}
+{% load my_custom_tags %}
+{% load widget_tweaks %}
+{{form.media}}
+{% block style%}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<link rel="stylesheet" href="{% static 'director/assets/css/leaflet-routing-machine.css' %}" />
+<style>
+    #map { height: 500px; }
+</style>
+{% endblock %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Detail</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'director:index' %}">Dashboard</a></li>
+              <li class="breadcrumb-item"><a href="{% url 'director:cameraList' %}">Camera List</a></li>
+            <li class="breadcrumb-item">{{camera.camera_name|truncatechars:20}}</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-4">
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">{{camera.camera_name|title}} Report</h3>
+                  </div>
+              <div class="card-body box-profile">
+                <ul class="list-group list-group-unbordered mb-3">
+                  <li class="list-group-item">
+                    <b>Time:</b> <a class="float-right">{{detected_time|date:'H:i. M. d, Y'}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Classes:</b> <a class="float-right"><ul >{% for clas in detected_classes%}<li >{{clas}}</li>{%endfor%}</ul></a>
+                  </li>
+                    {%if detected_accuracy == -1%}
+                    <li class="list-group-item"> <b>Result:</b><a class="float-right">False Positive</a> </li>
+                    {%elif detected_accuracy == 1%}
+                    <li class="list-group-item"> <b>Result:</b><a class="float-right">True Positive</a> </li>
+                    {%endif%}
+                </ul>
+              </div>
+
+            </div>
+
+              <!-- Worker Update button start-->
+              <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-md modal-dialog-centered">
+                            <div class="modal-content">
+                            <div class="modal-body">
+                                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                                      <h5>Would you like to mark it as <strong>true positive</strong>?</h5>
+                                      {% csrf_token %}
+                                      <br>
+                                      <button type="submit" name="true_positive_btn" class="btn btn-success mr-2"> Accept </button>
+                                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                </form>
+                            </div>
+
+                            </div>
+                        </div>
+                    </div>
+              <!-- Worker Update button end -->
+              <!-- Class delete Editing start-->
+              <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-md modal-dialog-centered">
+                      <div class="modal-content">
+                          <div class="modal-body">
+                              <div class="card">
+                                  <form class="forms-sample" method="post" enctype="multipart/form-data">
+                                      <h5>Would you like to mark it as <strong>false positive</strong>?</h5>
+                                      {% csrf_token %}
+                                      <br>
+                                      <button type="submit" name="false_positive_btn" class="btn btn-danger mr-2"> Accept </button>
+                                      <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancel</button>
+                                  </form>
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+              <!-- Class Delete end-->
+
+            <!-- /.card -->
+
+
+          </div>
+          <!-- /.col -->
+          <div class="col-md-8">
+            <div class="card card-primary card-outline">
+              <div class="card-header ">
+                <h3 class="card-title">Location</h3>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                      <div class="thumbnail">
+                        <a href="{{captured_image_url}}" target="_blank">
+                          <img src="{{captured_image_url}}" alt="Lights" style="width:100%">
+                          <div class="caption">
+                            <p>Captured Image.</p>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="thumbnail">
+                        <a href="{{detected_image_url}}" target="_blank">
+                          <img src="{{detected_image_url}}" alt="Nature" style="width:100%">
+                          <div class="caption">
+                            <p>Detected Image.</p>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+              </div><!-- /.card-body -->
+                {% if detected_accuracy == 0%}
+                <div class="card-footer">
+                    <h3 class="card-title text-center">Is detection result true?</h3>
+                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                            <i class="nav-icon fas fa-edit mr-2"></i>True Positive</button>
+                        <button type="button" class="btn btn-outline-danger float-right" data-bs-toggle="modal" data-bs-target="#exampleModal3">
+                            <i class="nav-icon fas fa-trash mr-2"></i>False Positive</button>
+                </div>
+                {%endif%}
+            </div>
+                <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+          <br/>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-md-12">
+                 <div class="card card-primary card-outline">
+              <div class="card-header ">
+                <h3 class="card-title">Location</h3>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div id="map"></div>
+              </div><!-- /.card-body -->
+            </div>
+                <!-- /.card -->
+            </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+<br/>
+    </div>
+    </div>
+{% endblock %}
+{% block script%}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script src="{% static 'director/assets/js/leaflet-routing-machine.js' %}"></script>
+    <script>
+    var greenIcon = L.icon({
+    iconUrl: "{% static 'director/assets/images/cctv-camera.png' %}",
+    iconSize:     [32, 48], // size of the icon
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+    var greenIcon2 = L.icon({
+    iconUrl: "{% static 'director/assets/images/logo.png' %}",
+    iconSize:     [48, 48], // size of the icon
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+var map = L.map('map').setView([{{latitude1}}, {{longitude1}}], 13);
+var marker = L.marker([{{latitude1}}, {{longitude1}}]).addTo(map);
+var user_marker = L.marker([{{user_latitude1}}, {{user_longitude1}}]).addTo(map);
+marker.bindPopup("<b>{{camera.camera_name}}'s location!</b>");
+user_marker.bindPopup("<b>Your Company's Location!</b>");
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
+}).addTo(map);
+
+
+L.Routing.control({
+    waypoints: [
+        L.latLng({{user_latitude1}}, {{user_longitude1}},{icon: greenIcon}),
+        L.latLng({{latitude1}}, {{longitude1}})
+    ],
+routeWhileDragging: false,
+}).addTo(map);
+
+    </script>
+{% endblock %}
+<!-- /.card -->

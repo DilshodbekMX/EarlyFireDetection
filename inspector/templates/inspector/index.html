@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>EarlyFireDetection</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'inspector/css/aos.css'%}" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="shortcut icon" href="{% static 'director/assets/images/logo.png' %}" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="{% static 'inspector/css/boxicons.min.css'%}" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.2.0/css/glightbox.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.4.0/remixicon.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.0.4/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'inspector/css/style.css'%}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top ">
+    <div class="container d-flex align-items-center">
+
+      <h1 class="logo me-auto"><a href="index.html">EarlyFireDetection</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+          <li><a class="nav-link scrollto" href="#why-us">Sample videos</a></li>
+          <li><a class="nav-link scrollto" href="#services">Services</a></li>
+          {%if user.is_authenticated%}
+          <li><a class="getstarted scrollto" href="{%url 'director:index'%}">Dashboard</a></li>
+          {%else%}
+          <li><a class="getstarted scrollto" href="{%url 'authentication:login'%}">Login</a></li>
+          {%endif%}
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero"  class="d-flex align-items-center">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+          <h1>EARLY FIRE DETECTION</h1>
+          <h2>With our cutting-edge solution, you’ll never have to worry about fire breaking out in your facilities again. Meet the all-in-one fire protection system that uses the power of IoT to keep you and your assets safe.</h2>
+          <div class="d-flex justify-content-center justify-content-lg-start">
+            <a href="#about" class="btn-get-started scrollto">Get Started</a>
+            <a href="https://firebasestorage.googleapis.com/v0/b/myfirstandroidapp-2fa7b.appspot.com/o/last_1.mp4?alt=media&token=df34ec78-7e7c-47c4-96b4-6ccd8f5c2660" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+          </div>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
+          <img src="{% static 'inspector/img/lands.jpg'%}" class="img-fluid animated" alt="">
+        </div>
+      </div>
+    </div>
+
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= Clients Section ======= -->
+    <section id="clients" class="clients section-bg">
+    </section><!-- End Cliens Section -->
+
+    <!-- ======= About Us Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>About Project</h2>
+        </div>
+
+        <div class="row content">
+
+          <div class="col-lg-6">
+            <h4>EFD can be solutions to following problems</h4>
+            <p>
+              Early fire detection (EFD) systems can be a vital component to business facilities and places of employment. These systems are responsible for protecting lives and property while reducing the effects of a fire. By detecting the presence of a fire in its early stages, these smart EFD systems can alert building occupants and emergency responders with ample time to take appropriate action and extinguish the fire or evacuate the building.
+            </p>
+            <p>
+              Moreover, Wildfires also pose a significant threat to both humans and wildlife. They destroy large rural and wildland areas, causing a huge loss of lives and assets. As a result, the capability to detect the occurrence of a wildfire is of utmost importance.<br>
+              Unfortunately today many wildfire detection systems rely on manual judgment. This could lead to a serious consequence: latency in alerting related parties. While governments are putting in more resources to firefighting, the average size of wildfire continues to increase.
+            </p>
+            <p>
+
+            </p>
+          </div>
+          <div class="col-lg-6">
+<!--            <img src="./assets/img/smoke.png" alt="Smoke">-->
+            <h4>How it works?</h4>
+              <p>
+                Our EFD project is ground-based camera networks which is used to detect fires early with cnn deep learning algorithm.
+                We also use Yolo8 object detection algorithm and trained this algorithm with 50.000 annotated images which contains smoke or fire.When it comes to accuracy of our model, we have achieved 75% accuracy.
+                Cameras would be installed high altitudes where they can monitor easly as wider as possible. Then cameras working hours will be 24/7 and when they capture smoke or fire they alerts firefighters whose headoffice is located nearest to the detected fire or smoke.In this way, the damage or risk of fire will be prevented.
+              </p>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Us Section -->
+
+    <!-- ======= Why Us Section ======= -->
+    <section id="why-us" class="why-us section-bg">
+      <div class="container-fluid" data-aos="fade-up">
+        <div class="row">
+          <div class="col-lg-6 d-flex flex-column justify-content-center align-items-stretch  order-2 order-lg-1">
+            <div class="content">
+              <h3>Sample videos <strong>detected with our model</strong>.</h3>
+              <p>In here,  there is a list of some videos that fire and smoke detected with our optimised yolov8 based EFD (EarlyFireDetection) model.</p>
+              <p>Raw video materials downloaded from: https://t.me/Qoraxabar, https://t.me/BIRINCHI_UZ</p>
+            </div>
+          </div>
+          <div class="col-lg-6 align-items-stretch order-1 order-lg-2 img" style='background-image: url("assets/img/why-us.png");' data-aos="zoom-in" data-aos-delay="150">
+            <iframe width="630" height="520" src="https://www.youtube.com/embed/videoseries?si=4fKBNJjIhy9T9yR1&amp;list=PLBi9zeOPl2kSbUsyChFOfOprroC0KQjNb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Why Us Section -->
+
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Services</h2>
+          <p>EarlyFireDetection project can be used to detect fires which occure in forest areas, residential areas, industrial areas, as well as minign areas.</p>
+        </div>
+
+        <div class="row">
+          <div class="w-22  m-auto card col-md-5 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="card-body">
+                <h5 class="card-title">Detecting fire in forest areas early</h5>
+            </div>
+            <img class="card-img-bottom pb-2"  src="{% static 'inspector/img/forest.jpg'%}" alt="Card image" style="width:100%">
+          </div>
+          <div class="w-22  m-auto card col-md-5 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="card-body">
+                <h5 class="card-title">Detecting fire in residential areas early</h5>
+            </div>
+            <img class="card-img-bottom pb-2"  src="{% static 'inspector/img/residen.jpg'%}" alt="Card image" style="width:100%">
+          </div>
+          <div class="w-22  m-auto card col-md-5 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="card-body">
+                <h5 class="card-title">Detecting fire in industrial areas early</h5>
+            </div>
+            <img class="card-img-bottom pb-2"  src="{% static 'inspector/img/indust.jpg'%}" alt="Card image" style="width:100%">
+          </div>
+          <div class="w-22  m-auto card col-md-5 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="card-body">
+                <h5 class="card-title">Detecting fire in mining areas early</h5>
+            </div>
+            <img class="card-img-bottom pb-2"  src="{% static 'inspector/img/gassta.jpg'%}" alt="Card image" style="width:100%">
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h3>EarlyFireDetection</h3>
+            <p>Dostlik Street 64<br>
+              Fergana, Rishtan<br>
+              Uzbekistan <br><br>
+              <strong>Phone:</strong> +998 911064233<br>
+              <strong>Email:</strong> asliddinmalikov999@gmail.com<br>
+            </p>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">About</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Login</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#services">Detecting fires early in forest areas</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#services">Detecting fires early in residential areas</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#services">Detecting fires early in mining areas</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#services">Detecting fires early in private sectors</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Social Networks</h4>
+            <div class="social-links">
+              <a href="#" class="twitter m-1"><i class="bx bxl-twitter"></i></a>@tayfun0108
+              <br>
+              <a href="#" class="instagram m-1"><i class="bx bxl-instagram"></i></a>@tayfun01008_
+              <br>
+              <a href="#" class="telegram m-1"><i class="bx bxl-linkedin"></i></a>@tayfun0108
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom clearfix">
+      <div class="copyright">
+        &copy; Copyright <strong><span>EarlySmokeDetection</span></strong>. All Rights Reserved
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'inspector/js/aos.js'%}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.2.0/js/glightbox.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.0.4/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/noframework.waypoints.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'inspector/js/main.js'%}"></script>
+
+</body>
+
+</html>

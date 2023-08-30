@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% block title%}
+      {% endblock %}
+
+    <link rel="shortcut icon" href="{% static 'director/assets/images/logo.png' %}" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'auth/fonts/material-design-iconic-font.min.css'%}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'auth/css/style.css'%}">
+</head>
+<body>
+    <div class="main">
+      {% block content%}
+
+
+      {% endblock %}
+    </div>
+
+    <!-- JS -->
+    <script src="{% static 'auth/js/jquery.min.js'%}"></script>
+    <script src="{% static 'auth/js/main.js'%}"></script>
+</body>
+</html>

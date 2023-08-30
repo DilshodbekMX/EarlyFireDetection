@@ -1,0 +1,296 @@
+{% extends 'director/base.html' %}
+{% load static %}
+{% load my_custom_tags %}
+{% block content %}
+<style>
+  .sr-only {
+top: -30em;
+}
+
+table.sortable th {
+position: relative;
+}
+
+table.sortable th button {
+
+font-size: 100%;
+font-weight: bold;
+background: transparent;
+border: none;
+display: inline;
+right: 0;
+left: 0;
+top: 0;
+bottom: 0;
+
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<div class="content-wrapper">
+  <!-- Username -->
+
+<div class="row">
+  <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'director:index'%}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Camera List</li>
+          </ol>
+  </nav>
+  {% if fill_the_requirements %}
+            <div class="card text-center">
+                <div class="card-header">
+                    *****************
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Attention!</h5>
+                  <p class="card-text">Before you start you must fill your data.</p>
+                  <a href="{% url 'director:profileSetting' %}" class="btn btn-outline-info btn-fw"><i class="mdi mdi-account-key" aria-hidden="true"></i> Update data</a>
+                  <a href="{% url 'authentication:logout' %}" class="btn btn-outline-danger btn-fw"><i class=" mdi mdi-exit-to-app" aria-hidden="true"></i>Logout</a>
+                </div>
+                <div class="card-footer text-muted">
+                  *****************
+                </div>
+              </div>
+            {% else %}
+  <div class="col-12 grid-margin">
+    <h2 class="text-center" >Section to check all cameras</h2>
+    <div class="card">
+      <div class="card-body px-0 overflow-auto">
+        <div class="page-header flex-wrap">
+        <h4 class="card-title pl-4">All your cameras: </h4>
+        <div class="d-flex mr-4">
+          <input class="form-control" type="text" id="myInput" onkeyup="myFunction()" placeholder="Camera title.." title="Type in a name"></div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered sortable" id="myTable">
+            <thead class="bg-light">
+              <tr>
+                <th>#</th>
+                <th><button>Camera Title
+                </button></th>
+                <th>City</th>
+                <th>Distance</th>
+                <th>Added Date</th>
+                <th class="num"><button>Accuracy (True Positives / Total detecting)</button></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for distance, camera ,t_d, a_c in zipped_data %}
+                  <tr >
+                    <td>{{forloop.counter}}</td>
+                    <td><a href="{% url 'director:cameraDetail' camera.pk %}">{{camera.camera_name}}</a></td>
+                    <td>{{camera.city}}</td>
+                    <td>{{distance}} </td>
+                    <td >{{camera.added_date}} </td>
+                    <td class="num">
+                            {{a_c}}% ({{t_d}})</td>
+                  </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%endif%}
+</div>
+
+
+<!-- // search Start -->
+<script>
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++)
+    {
+      td1 = tr[i].getElementsByTagName("td")[1];
+      td2 = tr[i].getElementsByTagName("td")[5];
+      if (td1)
+      {
+        txtValue = td1.textContent || td1.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1)
+        {
+          tr[i].style.display = "";
+        } else
+        {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+  </script>
+   <!-- // Search End -->
+   <!-- // Filter and Sort Start -->
+<script>
+
+
+
+'use strict';
+
+class SortableTable {
+constructor(tableNode) {
+ this.tableNode = tableNode;
+
+ this.columnHeaders = tableNode.querySelectorAll('thead th');
+
+ this.sortColumns = [];
+
+ for (var i = 0; i < this.columnHeaders.length; i++) {
+   var ch = this.columnHeaders[i];
+   var buttonNode = ch.querySelector('button');
+   if (buttonNode) {
+     this.sortColumns.push(i);
+     buttonNode.setAttribute('data-column-index', i);
+     buttonNode.addEventListener('click', this.handleClick.bind(this));
+   }
+ }
+
+ this.optionCheckbox = document.querySelector(
+   'input[type="checkbox"][value="show-unsorted-icon"]'
+ );
+
+ if (this.optionCheckbox) {
+   this.optionCheckbox.addEventListener(
+     'change',
+     this.handleOptionChange.bind(this)
+   );
+   if (this.optionCheckbox.checked) {
+     this.tableNode.classList.add('show-unsorted-icon');
+   }
+ }
+}
+
+setColumnHeaderSort(columnIndex) {
+ if (typeof columnIndex === 'string') {
+   columnIndex = parseInt(columnIndex);
+ }
+
+ for (var i = 0; i < this.columnHeaders.length; i++) {
+   var ch = this.columnHeaders[i];
+   var buttonNode = ch.querySelector('button');
+   if (i === columnIndex) {
+     var value = ch.getAttribute('aria-sort');
+     if (value === 'descending') {
+       ch.setAttribute('aria-sort', 'ascending');
+       this.sortColumn(
+         columnIndex,
+         'ascending',
+         ch.classList.contains('num')
+       );
+     } else {
+       ch.setAttribute('aria-sort', 'descending');
+       this.sortColumn(
+         columnIndex,
+         'descending',
+         ch.classList.contains('num')
+       );
+     }
+   } else {
+     if (ch.hasAttribute('aria-sort') && buttonNode) {
+       ch.removeAttribute('aria-sort');
+     }
+   }
+ }
+}
+
+sortColumn(columnIndex, sortValue, isNumber) {
+ function compareValues(a, b) {
+   if (sortValue === 'ascending') {
+     if (a.value === b.value) {
+       return 0;
+     } else {
+       if (isNumber) {
+         return a.value - b.value;
+       } else {
+         return a.value < b.value ? -1 : 1;
+       }
+     }
+   } else {
+     if (a.value === b.value) {
+       return 0;
+     } else {
+       if (isNumber) {
+         return b.value - a.value;
+       } else {
+         return a.value > b.value ? -1 : 1;
+       }
+     }
+   }
+ }
+
+ if (typeof isNumber !== 'boolean') {
+   isNumber = false;
+ }
+
+ var tbodyNode = this.tableNode.querySelector('tbody');
+ var rowNodes = [];
+ var dataCells = [];
+
+ var rowNode = tbodyNode.firstElementChild;
+
+ var index = 0;
+ while (rowNode) {
+   rowNodes.push(rowNode);
+   var rowCells = rowNode.querySelectorAll('th, td');
+   var dataCell = rowCells[columnIndex];
+
+   var data = {};
+   data.index = index;
+   data.value = dataCell.textContent.toLowerCase().trim();
+   if (isNumber) {
+     data.value = parseFloat(data.value);
+   }
+   dataCells.push(data);
+   rowNode = rowNode.nextElementSibling;
+   index += 1;
+ }
+
+ dataCells.sort(compareValues);
+
+ // remove rows
+ while (tbodyNode.firstChild) {
+   tbodyNode.removeChild(tbodyNode.lastChild);
+ }
+
+ // add sorted rows
+ for (var i = 0; i < dataCells.length; i += 1) {
+   tbodyNode.appendChild(rowNodes[dataCells[i].index]);
+ }
+}
+
+/* EVENT HANDLERS */
+
+handleClick(event) {
+ var tgt = event.currentTarget;
+ this.setColumnHeaderSort(tgt.getAttribute('data-column-index'));
+}
+
+handleOptionChange(event) {
+ var tgt = event.currentTarget;
+
+ if (tgt.checked) {
+   this.tableNode.classList.add('show-unsorted-icon');
+ } else {
+   this.tableNode.classList.remove('show-unsorted-icon');
+ }
+}
+}
+
+// Initialize sortable table buttons
+window.addEventListener('load', function () {
+var sortableTables = document.querySelectorAll('table.sortable');
+for (var i = 0; i < sortableTables.length; i++) {
+ new SortableTable(sortableTables[i]);
+}
+});
+
+
+ </script>
+   <!-- // Filter and Sort End -->
+
+</div>
+{% endblock %}

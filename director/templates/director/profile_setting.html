@@ -1,0 +1,56 @@
+<!-- SELECT2 EXAMPLE -->
+{% extends 'director/base.html' %}
+{% load static %}
+{% block content %}
+{{form.media}}
+<div class="content-wrapper">
+
+        <div class="row">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'director:index'%}">Dashboard</a></li>
+                <li class="breadcrumb-item active">Profile Update</li>
+              </ol>
+            </nav>
+        {% if registered %}
+            <div class="card text-center">
+                <div class="card-header">
+                    *****************
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Success!</h5>
+                  <p class="card-text">Your data updated successfully.</p>
+                  <a href="{% url 'director:profileSetting' %}" class="btn btn-outline-success btn-fw"><i class="mdi mdi-account-key" aria-hidden="true"></i> Profile Setting</a>
+                  <a href="{% url 'director:index' %}" class="btn btn-outline-info btn-fw"><i class=" mdi mdi-exit-to-app" aria-hidden="true"></i> Go back to Main Page</a>
+                </div>
+                <div class="card-footer text-muted">
+                  *****************
+                </div>
+              </div>
+            {% else %}
+
+            <div class="col-12 grid-margin">
+                <h2 class="text-center" >Section to update your data</h2>
+                <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Fill the form</h4>
+                    <form class="form-sample" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                      {{form.media}}
+                        {{ form }}
+
+
+                    <div class="btn-group mt-4" role="group" aria-label="Basic example">
+                        <button type="submit" class="btn btn-info ">&nbsp &nbsp  Save  &nbsp &nbsp </button>
+                        <button type="button" class="btn btn-warning "> Cancel</button>
+                    </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+            {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+<!-- /.card -->

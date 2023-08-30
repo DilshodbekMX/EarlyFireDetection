@@ -1,0 +1,55 @@
+{% extends 'authentication/authBase.html' %}
+{%load static%}
+{% load widget_tweaks %}
+{% block title%}
+    <title>Sign Up Form </title>
+{% endblock %}
+{% block content%}
+<!-- Sign up form -->
+<section class="signup">
+    <div class="container">
+        {% if error_message %}
+           <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+        <div class="signup-content">
+            <div class="signup-form">
+                <h2 class="form-title">Sign up</h2>
+                <form method="POST" class="register-form" id="register-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="email"><i class="zmdi zmdi-email material-icons-name"></i></label>
+                        {% render_field form.email|attr:'required:true'  id="email" name="email" placeholder="Email" type="email" %}
+
+                    </div>
+                    <div class="form-group">
+                        <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        {% render_field form.username|attr:'required:true'  id="username" name="username" placeholder="Username" %}
+                    </div>
+                    <div class="form-group">
+                        <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                        {% render_field form.password|attr:'required:true' id="pass" name="pass"  placeholder="Password" %}
+                    </div>
+                    <div class="form-group">
+                        <label for="re_pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                        {% render_field form.password2|attr:'required:true' id="re_pass" name="re_pass"  placeholder="Repeat your password" %}
+                    </div>
+<!--                    <div class="form-group">-->
+<!--                        <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />-->
+<!--                        <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>-->
+<!--                    </div>-->
+                    <div class="form-group form-button">
+                        <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+                    </div>
+                </form>
+            </div>
+            <div class="signup-image">
+                <figure><img src="{% static 'auth/images/signup-image.jpg'%}" alt="sing up image"></figure>
+                <a href="{%url 'authentication:login'%}" class="signup-image-link">I am already member</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
