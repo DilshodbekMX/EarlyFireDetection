@@ -5,3 +5,5 @@ The Early Fire Detection Project consists of 3 different mini projects:
 3. App installed to rasberryPi: For detecting Fire and Smoke and sending notification to the nearest Fire Station (fire_detection.py (completing soon) file is responsible for detection and notification)
 
 This is: https://github.com/DilshodbekMX/FireSmokeHelper another repository for detection on terminal 
+
+Notification is sent from desktop, rasberryPi or terminal app and seen in web site
