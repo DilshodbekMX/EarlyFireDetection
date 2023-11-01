@@ -7,7 +7,7 @@ cap = cv2.VideoCapture("rtsp://admin:Admin777.@192.168.1.64:554/Streaming/Channe
 img_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)/2)
 img_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)/2)
 dim = (img_width, img_height)
-# Initialize YOLOv7 object detector
+
 model_path = "fire.onnx"
 yolov8_detector = YOLOv8(model_path, conf_thres=0.5, iou_thres=0.5)
 
